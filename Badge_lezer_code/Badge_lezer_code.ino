@@ -11,6 +11,11 @@
  
 #include <SPI.h>
 #include <MFRC522.h>
+
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+// Set the LCD address to 0x27 for a 16 chars and 2 line display
+LiquidCrystal_I2C lcd(0x27, 16, 2);
  
 #define SS_PIN 10
 #define RST_PIN 9
@@ -25,9 +30,16 @@ void setup()
   Serial.println();
   pinMode(6, OUTPUT);
 
+    // initialize the LCD, 
+  lcd.begin();
+ 
+  // Turn on the blacklight and print a message.
+  lcd.backlight();
+
 }
 void loop() 
 {
+  lcd.clear();
   // Look for new cards
   if ( ! mfrc522.PICC_IsNewCardPresent()) 
   {
@@ -57,7 +69,10 @@ void loop()
     Serial.println("Authorized access");
     Serial.println();
     digitalWrite(6 ,LOW);
-    Serial.println("LED on");
+    Serial.println("WELCOME Jeroen");
+    lcd.print("WELCOME");
+    lcd.setCursor(0,1);
+    lcd.print("Jeroen");
     delay(3000);
     digitalWrite(6, HIGH);
     Serial.println("LED off");
