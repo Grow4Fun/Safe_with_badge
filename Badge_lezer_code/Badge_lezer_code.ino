@@ -81,6 +81,7 @@ void loop()
  
  else   {
     Serial.println(" Access denied");
+    lcd.print("Access denied");
     delay(3000);
   }
 } 
