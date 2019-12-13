@@ -21,8 +21,8 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define RST_PIN 9
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
-const int buttonPin = 2;
-int buttonState = 0;
+//const int buttonPin = 3;
+//int buttonState = 0;
  
 void setup() 
 {
@@ -31,9 +31,9 @@ void setup()
   mfrc522.PCD_Init();   // Initiate MFRC522
   Serial.println("Approximate your card to the reader...");
   Serial.println();
-  Serial.println(digitalRead(buttonPin));
+  Serial.println(digitalRead(3));
   pinMode(6, OUTPUT);
-  pinMode(buttonPin, INPUT);
+  pinMode(3, INPUT_PULLUP);
 
     // initialize the LCD, 
   lcd.begin();
@@ -73,12 +73,18 @@ void loop()
   {
     Serial.println("Authorized access");
     Serial.println();
-    digitalWrite(6 ,LOW);
+    digitalWrite(6 ,HIGH);
     Serial.println("WELCOME World");
     lcd.print("WELCOME");
     lcd.setCursor(0,1);
     lcd.print("World");
+    
+   // int buttonState = digitalRead(3);
     delay(3000);
+    Serial.println(digitalRead(3));
+    delay(1000);
+
+
   }
  
  else   {
@@ -86,11 +92,13 @@ void loop()
     lcd.print("Access denied");
     delay(3000);
   }
-    buttonState = digitalRead(buttonPin);
+    int buttonState = digitalRead(3);
     Serial.println(buttonState);
-    if (buttonState == 1){
-      digitalWrite(6, HIGH);
+    
+    if (buttonState == LOW){
+      digitalWrite(6, LOW);
       Serial.println("RELAY off");
-      // delay(3000);
+     // lcd.print("");
+      delay(3000);
     }
 } 
